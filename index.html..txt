@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StyleHouse - Moda com Estilo</title>
+  <style>
+    /* Reset e base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: #fafafa;
+      color: #333;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Cabeçalho */
+    header {
+      background: #111;
+      color: white;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header h1 {
+      font-weight: 700;
+      letter-spacing: 2px;
+      font-size: 1.8rem;
+      cursor: default;
+    }
+    nav {
+      display: flex;
+      gap: 25px;
+      font-weight: 600;
+    }
+    nav a:hover {
+      color: #f54291;
+    }
+    /* Banner Carrossel */
+    .carousel {
+      position: relative;
+      max-width: 1000px;
+      margin: 30px auto 60px auto;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgb(0 0 0 / 0.1);
+    }
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      width: 300%;
+    }
+    .slide {
+      min-width: 100%;
+      user-select: none;
+      position: relative;
+    }
+    .slide img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 12px;
+      filter: brightness(0.9);
+    }
+    .slide-text {
+      position: absolute;
+      bottom: 30px;
+      left: 30px;
+      color: white;
+      background: rgba(0,0,0,0.4);
+      padding: 20px 30px;
+      border-radius: 8px;
+      font-size: 1.4rem;
+      font-weight: 700;
+      max-width: 70%;
+    }
+    /* Carousel controles */
+    .carousel-controls {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      padding: 0 15px;
+      pointer-events: none;
+    }
+    .carousel-controls button {
+      pointer-events: all;
+      background: rgba(0,0,0,0.4);
+      border: none;
+      color: white;
+      font-size: 2rem;
+      padding: 5px 12px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .carousel-controls button:hover {
+      background: #f54291;
+    }
+
+    /* Container geral */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto 50px auto;
+      padding: 0 20px;
+      flex: 1;
+    }
+
+    /* Categorias */
+    .categorias {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 50px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .categoria {
+      background: white;
+      width: 220px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      overflow: hidden;
+    }
+    .categoria:hover {
+      transform: scale(1.05);
+    }
+    .categoria img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+    .categoria h3 {
+      padding: 12px 8px;
+      font-weight: 700;
+      color: #111;
+    }
+
+    /* Produtos */
+    .produtos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+    .produto {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgb(0 0 0 / 0.1);
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.3s ease;
+    }
+    .produto:hover {
+      box-shadow: 0 8px 18px rgb(245 66 145 / 0.4);
+    }
+    .produto img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+    .produto-info {
+      flex-grow: 1;
+    }
+    .produto-info h4 {
+      margin-bottom: 6px;
+      font-size: 1.2rem;
+      color: #222;
+    }
+    .produto-info p {
+      font-size: 1rem;
+      color: #f54291;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .btn-comprar {
+      background: #f54291;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+      font-size: 1rem;
+    }
+    .btn-comprar:hover {
+      background: #d63476;
+    }
+
+    /* Depoimentos */
+    .depoimentos {
+      background: #fff0f6;
+      padding: 40px 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgb(0 0 0 / 0.05);
+      margin-bottom: 50px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+    .depoimentos h2 {
+      margin-bottom: 25px;
+      font-weight: 700;
+      color: #111;
+    }
+    .depoimento {
+      font-style: italic;
+      color: #7a3b5f;
+      margin-bottom: 25px;
+      font-size: 1.1rem;
+      position: relative;
+      padding: 0 20px;
+    }
+    .depoimento::before {
+      content: "“";
+      font-size: 3rem;
+      position: absolute;
+      left: 0;
+      top: -10px;
+      color: #f54291;
+    }
+    .depoimento::after {
+      content: "”";
+      font-size: 3rem;
+      position: absolute;
+      right: 0;
+      bottom: -10px;
+      color: #f54291;
+    }
+    .autor {
+      font-weight: 700;
+      margin-top: 10px;
+      color: #4b1a39;
+    }
+
+    /* Formulário Contato */
+    .contato {
+      background: white;
+      max-width: 700px;
+      margin: 0 auto 70px auto;
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 15px rgb(0 0 0 / 0.07);
+    }
+    .contato h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-weight: 700;
+      color: #111;
+    }
+    .contato form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .contato input, .contato textarea {
+      padding: 12px 15px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1.5px solid #ddd;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+    }
+    .contato input:focus, .contato textarea:focus {
+      border-color: #f54291;
+      outline: none;
+    }
+    .contato button {
+      background: #f54291;
+      color: white;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease;
+    }
+    .contato button:hover {
+      background: #d63476;
+    }
+
+    /* Rodapé */
+    footer {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 20px 15px;
+      letter-spacing: 1.5px;
+    }
+    footer .redes {
+      margin: 10px 0 15px 0;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+    }
+    footer .redes a {
+      color: white;
+      font-size: 1.5rem;
+      transition: color 0.3s ease;
+    }
+    footer .redes a:hover {
+      color: #f54291;
+    }
+
+    /* Responsividade */
+    @media (max-width: 720px) {
+      .categorias {
+        justify-content: center;
+      }
+      .categoria {
+        width: 45%;
+      }
+    }
+    @media (max-width: 420px) {
+      .categoria {
+        width: 100%;
+      }
+      nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>StyleHouse</h1>
+  <nav>
+    <a href="#produtos">Produtos</a>
+    <a href="#categorias">Categorias</a>
+    <a href="#depoimentos">Depoimentos</a>
+    <a href="#contato">Contato</a>
+  </nav>
+</header>
+
+<!-- Banner carrossel -->
+<div class="carousel" aria-label="Banner rotativo de promoções">
+  <div class="slides">
+    <div class="slide">
+      <img src="https://images.unsplash.com/photo-1521335629791-ce4aec67dd4a?auto=format&fit=crop&w=1000&q=80" alt="Promoção Camisas" />
+      <div class="slide-text">Super Promoção de Camisas - Até 40% OFF!</div>
+    </div>
+    <div class="slide">
+      <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1000&q=80" alt="Novidades em Vestidos" />
+      <div class="slide-text">Novidades em Vestidos para o Verão 2025</div>
+    </div>
+    <div class="slide">
+      <img src="https://images.unsplash.com/photo-1520975691773-0b77f1c19894?auto=format&fit=crop&w=1000&q=80" alt="Jaquetas Estilosas" />
+      <div class="slide-text">Jaquetas estilosas para arrasar no inverno</div>
+    </div>
+  </div>
+  <div class="carousel-controls">
+    <button id="prev" aria-label="Slide anterior">&#10094;</button>
+    <button id="next" aria-label="Próximo slide">&#10095;</button>
+  </div>
+</div>
+
+<main class="container">
+
+  <!-- Categorias -->
+  <section id="categorias">
+    <h2>Categorias</h2>
+    <div class="categorias">
+      <div class="categoria" tabindex="0" role="button" aria-pressed="false">
+        <img src="https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=400&q=80" alt="Categoria Camisas" />
+        <h3>Camisas</h3>
+      </div>
+      <div class="categoria" tabindex="0" role="button" aria-pressed="false">
+        <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80" alt="Categoria Vestidos" />
+        <h3>Vestidos</h3>
+      </div>
+      <div class="categoria" tabindex="0" role="button" aria-pressed="false">
+        <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80" alt="Categoria Calças" />
+        <h3>Calças</h3>
+      </div>
+      <div class="categoria" tabindex="0" role="button" aria-pressed="false">
+        <img src="https://images.unsplash.com/photo-1520975691773-0b77f1c19894?auto=format&fit=crop&w=400&q=80" alt="Categoria Jaquetas" />
+        <h3>Jaquetas</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- Produtos -->
+  <section id="produtos">
+    <h2>Produtos em Destaque</h2>
+    <div class="produtos" aria-live="polite" aria-label="Lista de produtos">
+      <article class="produto" tabindex="0">
+        <img src="https://images.unsplash.com/photo-1521335629791-ce4aec67dd4a?auto=format&fit=crop&w=600&q=80" alt="Camisa Casual Rosa" />
+        <div class="produto-info">
+          <h4>Camisa Casual Rosa</h4>
+          <p>R$ 79,90</p>
+          <button class="btn-comprar" aria-label="Adicionar Camisa Casual Rosa ao carrinho">Comprar</button>
+        </div>
+      </article>
+      <article class="produto" tabindex="0">
+        <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80" alt="Vestido Floral" />
+        <div class="produto-info">
+          <h4>Vestido Floral</h4>
+          <p>R$ 129,90</p>
+          <button class="btn-comprar" aria-label="Adicionar Vestido Floral ao carrinho">Comprar</button>
+        </div>
+      </article>
+      <article class="produto" tabindex="0">
+        <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=80" alt="Calça Jeans" />
+        <div class="produto-info">
+          <h4>Calça Jeans</h4>
+          <p>R$ 99,90</p>
+          <button class="btn-comprar" aria-label="Adicionar Calça Jeans ao carrinho">Comprar</button>
+        </div>
+      </article>
+      <article class="produto" tabindex="0">
+        <img src="https://images.unsplash.com/photo-1520975691773-0b77f1c19894?auto=format&fit=crop&w=600&q=80" alt="Jaqueta Preta" />
+        <div class="produto-info">
+          <h4>Jaqueta Preta</h4>
+          <p>R$ 179,90</p>
+          <button class="btn-comprar" aria-label="Adicionar Jaqueta Preta ao carrinho">Comprar</button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Depoimentos -->
+  <section id="depoimentos" class="depoimentos">
+    <h2>O que nossos clientes dizem</h2>
+    <div class="depoimento">
+      <p>“A qualidade das roupas é incrível e o atendimento é sempre muito atencioso. Recomendo a StyleHouse para todos!”</p>
+      <div class="autor">— Ana Silva</div>
+    </div>
+    <div class="depoimento">
+      <p>“Adoro as novidades que sempre chegam. As peças têm um ótimo caimento e preço justo.”</p>
+      <div class="autor">— João Santos</div>
+    </div>
+    <div class="depoimento">
+      <p>“Comprei um vestido para uma festa e recebi muitos elogios. Voltarei a comprar com certeza!”</p>
+      <div class="autor">— Maria Oliveira</div>
+    </div>
+  </section>
+
+  <!-- Contato -->
+  <section id="contato" class="contato" aria-label="Formulário de contato">
+    <h2>Fale Conosco</h2>
+    <form id="formContato" novalidate>
+      <input type="text" id="nome" name="nome" placeholder="Seu nome" required aria-required="true" />
+      <input type="email" id="email" name="email" placeholder="Seu e-mail" required aria-required="true" />
+      <textarea id="mensagem" name="mensagem" rows="5" placeholder="Sua mensagem" required aria-required="true"></textarea>
+      <button type="submit">Enviar Mensagem</button>
+    </form>
+  </section>
+
+</main>
+
+<footer>
+  <div>© 2025 StyleHouse - Todos os direitos reservados</div>
+  <div class="redes" aria-label="Redes sociais">
+    <a href="#" aria-label="Facebook StyleHouse" target="_blank" rel="noopener noreferrer">📘</a>
+    <a href="#" aria-label="Instagram StyleHouse" target="_blank" rel="noopener noreferrer">📸</a>
+    <a href="#" aria-label="Twitter StyleHouse" target="_blank" rel="noopener noreferrer">🐦</a>
+  </div>
+</footer>
+
+<script>
+  // Carrossel simples
+  const slides = document.querySelector('.slides');
+  const totalSlides = document.querySelectorAll('.slide').length;
+  let index = 0;
+
+  document.getElementById('next').addEventListener('click', () => {
+    index = (index + 1) % totalSlides;
+    slides.style.transform = `translateX(-${index * 100}%)`;
+  });
+
+  document.getElementById('prev').addEventListener('click', () => {
+    index = (index - 1 + totalSlides) % totalSlides;
+    slides.style.transform = `translateX(-${index * 100}%)`;
+  });
+
+  // Auto-play do carrossel a cada 5 segundos
+  setInterval(() => {
+    index = (index + 1) % totalSlides;
+    slides.style.transform = `translateX(-${index * 100}%)`;
+  }, 5000);
+
+  // Botões comprar simulam adicionar ao carrinho
+  const botoesComprar = document.querySelectorAll('.btn-comprar');
+  botoesComprar.forEach(btn => {
+    btn.addEventListener('click', () => {
+      alert('Produto adicionado ao carrinho!');
+    });
+  });
+
+  // Formulário contato com validação simples
+  const form = document.getElementById('formContato');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nome = form.nome.value.trim();
+    const email = form.email.value.trim();
+    const mensagem = form.mensagem.value.trim();
+
+    if (!nome || !email || !mensagem) {
+      alert('Por favor, preencha todos os campos.');
+      return;
+    }
+
+    // Simula envio
+    alert(`Obrigado, ${nome}! Sua mensagem foi enviada com sucesso.`);
+    form.reset();
+  });
+</script>
+
+</body>
+</html>
